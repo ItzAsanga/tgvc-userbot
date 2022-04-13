@@ -1,6 +1,6 @@
-Pyrogram==1.2.5
+Pyrogram
 TgCrypto
 ffmpeg-python
 psutil
-pytgcalls
+py-tgcalls
 wheel
