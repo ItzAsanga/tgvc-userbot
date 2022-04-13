@@ -4,17 +4,28 @@ ENV VIRTUAL_ENV "/venv"
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH "$VIRTUAL_ENV/bin:$PATH"
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt update && apt upgrade -y
+
+RUN apt install python3-pip -y
+
 RUN apt-get install -y ffmpeg opus-tools bpm-tools
-RUN python -m pip install --upgrade pip
-RUN python -m pip install wheel Pyrogram TgCrypto
-RUN python -m pip install pytgcalls ffmpeg-python psutil
 
-RUN wget -q https://github.com/callsmusic/tgvc-userbot/archive/dev.tar.gz && \
-    tar xf dev.tar.gz && rm dev.tar.gz
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 
-WORKDIR /tgvc-userbot-dev
+RUN apt-get install -y nodejs
+
+RUN npm i -g npm
+
+RUN mkdir /app/
+
+COPY . /app
+
+WORKDIR /app
+
+RUN pip3 install --upgrade pip
+
+RUN pip3 install -U -r requirements.txt
+
 CMD python3 main.py
-
 # docker build -t tgcalls .
 # docker run -it --rm --env-file ./envfile --name tgvc-userbot tgcalls
